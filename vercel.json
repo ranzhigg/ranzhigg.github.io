@@ -1,20 +1,20 @@
 {
   "routes": [
     {
-      "src": "/node",
-      "dest": "https://lvlv.lv/node"
+      "src": "/node/",
+      "dest": "https://lvlv.lv/node/"
     },
     {
-      "src": "/server",
-      "dest": "https://lvlv.lv/server"
+      "src": "/server/",
+      "dest": "https://lvlv.lv/server/"
     },
     {
-      "src": "/grafana",
-      "dest": "https://lvlv.lv/grafana"
+      "src": "/grafana/",
+      "dest": "https://lvlv.lv/grafana/"
     },
     {
-      "src": "/rss",
-      "dest": "https://lvlv.lv/rss"
+      "src": "/rss/",
+      "dest": "https://lvlv.lv/rss/"
     }
   ]
 }
