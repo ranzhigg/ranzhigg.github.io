@@ -55,12 +55,14 @@ body {
 }
 
 /* 深色模式的背景必须写在浅色 body 之后，否则会被浅色渐变盖掉，
-   导致深色下文字是浅色的、背景却是浅色的，像蒙了一层。 */
+   导致深色下文字是浅色的、背景却是浅色的，像蒙了一层。
+   深色也配有背景：和浅色同一路渐变，只是换成夜色版——深蓝紫。 */
 @media (prefers-color-scheme: dark) {
   body {
     background:
-      radial-gradient(120% 60% at 85% 0%, rgba(41, 92, 244, 0.12), transparent 60%),
-      linear-gradient(180deg, #171715 0%, #121210 60%, #0e0e0c 100%);
+      radial-gradient(90% 45% at 85% 0%, rgba(64, 120, 200, 0.28), transparent 65%),
+      radial-gradient(90% 50% at 0% 100%, rgba(124, 92, 255, 0.22), transparent 65%),
+      linear-gradient(165deg, #1c1c30 0%, #201d33 42%, #171a28 78%, #101623 100%);
     background-attachment: fixed;
   }
 }
