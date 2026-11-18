@@ -44,6 +44,12 @@
     --accent: #7da2ff;
     --hover: rgba(125, 162, 255, 0.1);
   }
+
+  body {
+    background:
+      radial-gradient(120% 60% at 85% 0%, rgba(41, 92, 244, 0.12), transparent 60%),
+      linear-gradient(180deg, #171715 0%, #121210 60%, #0e0e0c 100%);
+  }
 }
 
 * { box-sizing: border-box; }
@@ -56,7 +62,13 @@ html {
 body {
   margin: 0;
   color: var(--ink);
-  background: var(--paper);
+  /* 网站背景：浅色渐变，暖白 → 米黄 → 淡紫蓝，整页都能看到；
+     照片本身不动，只改网站背景。 */
+  background:
+    radial-gradient(90% 45% at 85% 0%, rgba(201, 245, 229, 0.5), transparent 65%),
+    radial-gradient(90% 50% at 0% 100%, rgba(217, 209, 255, 0.45), transparent 65%),
+    linear-gradient(165deg, #fffdf6 0%, #fbf3e2 42%, #f3ecff 78%, #e9f1ff 100%);
+  background-attachment: fixed;
   font-family: var(--sans);
   font-size: 16px;
   line-height: 1.6;
@@ -164,12 +176,49 @@ main { flex: 1; }
 }
 
 #site-title {
+  position: relative;
+  display: inline-block;
   margin: 0;
   font-family: var(--serif);
   font-size: clamp(72px, 20vw, 128px);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+/* 笔触下划线：从蓝到透明，像一笔划过 */
+#site-title::after {
+  content: "";
+  display: block;
+  width: 76px;
+  height: 4px;
+  margin-top: 22px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), rgba(41, 92, 244, 0));
+}
+
+/* 红色印章：英文 ranzhi，改成长方形小印，落在标题右上角 */
+.seal {
+  position: absolute;
+  top: -10px;
+  right: -84px;
+  width: auto;
+  height: auto;
+  display: inline-block;
+  padding: 8px 11px;
+  background: #d43d2a;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-radius: 5px;
+  transform: rotate(-4deg);
+  box-shadow: 0 4px 12px rgba(212, 61, 42, 0.35);
 }
 
 .tagline {
@@ -236,6 +285,113 @@ main { flex: 1; }
   fill: currentColor;
 }
 
+
+/* ---- 日记 ---- */
+
+/* 日记页专属背景：信纸条纹。主页还是浅色渐变，只有日记页用这个。 */
+body.diary-page {
+  background-color: #fdfcf6;
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0,
+    transparent 31px,
+    rgba(96, 120, 180, 0.16) 31px,
+    rgba(96, 120, 180, 0.16) 32px
+  );
+  background-attachment: scroll;
+}
+
+@media (prefers-color-scheme: dark) {
+  body.diary-page {
+    background-color: #141412;
+    background-image: repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 31px,
+      rgba(242, 241, 236, 0.09) 31px,
+      rgba(242, 241, 236, 0.09) 32px
+    );
+  }
+}
+
+.diary-teaser { padding-block: 8px 48px; }
+
+.diary-teaser p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.diary-teaser a {
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
+.diary-teaser a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+.diary-hero { padding-block: clamp(40px, 8vh, 72px) clamp(24px, 4vh, 40px); }
+
+.diary-hero h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(48px, 12vw, 80px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.diary-hero p {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.diary-list {
+  padding-block: 8px 48px;
+  /* 信纸的左边红线 */
+  border-left: 1px solid rgba(214, 90, 90, 0.45);
+  padding-left: 20px;
+}
+
+.diary-empty {
+  margin: 0;
+  padding: 32px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.diary-entry {
+  padding-block: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.diary-entry:last-of-type { border-bottom: 1px solid var(--line); }
+
+.diary-date {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.diary-entry p { margin: 0 0 12px; font-size: 16px; line-height: 1.9; }
+.diary-entry p:last-child { margin-bottom: 0; }
+
+.diary-entry figure { margin: 16px 0 0; }
+
+.diary-entry img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+}
+
+.diary-note { padding-block: 8px 56px; }
+.diary-note p { margin: 0; color: var(--muted); font-size: 15px; }
+
 /* ---- 关于 / 页脚 ---- */
 
 .about { padding-block: 8px 56px; }
@@ -271,7 +427,11 @@ main { flex: 1; }
 
 .hero,
 .links,
-.about {
+.about,
+.diary-teaser,
+.diary-hero,
+.diary-list,
+.diary-note {
   animation: fade-up 0.6s ease both;
 }
 
@@ -284,6 +444,7 @@ main { flex: 1; }
   .site-header nav { gap: 18px; font-size: 13px; }
   .link-list { gap: 12px; }
   .link-list a { width: 44px; height: 44px; }
+  .seal { top: -6px; right: -68px; padding: 6px 8px; font-size: 11px; letter-spacing: 0.12em; border-radius: 4px; }
   .site-footer { font-size: 12px; }
 }
 
@@ -311,6 +472,7 @@ main { flex: 1; }
         </a>
         <nav aria-label="页内导航">
           <a href="#top">首页</a>
+          <a href="diary.html">日记</a>
           <a href="#links">链接</a>
           <a href="#about">关于</a>
         </nav>
@@ -319,7 +481,7 @@ main { flex: 1; }
       <main id="top">
         <section class="hero" aria-labelledby="site-title">
           <p class="eyebrow">Hello,</p>
-          <h1 id="site-title">染指</h1>
+          <h1 id="site-title">染指<span class="seal" aria-hidden="true">ranzhi</span></h1>
           <p class="tagline">你算哪块小熊饼干<span aria-hidden="true">🍪</span></p>
           <p class="intro">在做一些小而认真的东西。</p>
         </section>
@@ -348,6 +510,12 @@ main { flex: 1; }
               </a>
             </li>
           </ul>
+        </section>
+
+
+        <section class="diary-teaser" aria-label="日记">
+          <h2 class="section-title">日记</h2>
+          <p>偶尔写点什么。<a href="diary.html">去看看 →</a></p>
         </section>
 
         <section id="about" class="about" aria-label="关于">
