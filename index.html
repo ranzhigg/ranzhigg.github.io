@@ -11,7 +11,294 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="stylesheet" href="assets/css/home.css" />
+    <style>
+/* 内联样式：与 assets/css/home.css 保持一致，避免 HTML 和 CSS 部署不同步导致排版错乱。 */
+/* 染指 — 简约版
+   原则：少即是多。一个强调色、大量留白、移动优先。
+   亮色 / 深色都用同一套变量，只换底色和墨色。 */
+
+:root {
+  color-scheme: light dark;
+
+  --paper: #faf9f6;
+  --ink: #1a1a18;
+  --muted: #6f6e68;
+  --line: rgba(26, 26, 24, 0.12);
+  --accent: #295cf4;
+  --hover: rgba(41, 92, 244, 0.06);
+
+  --serif: "Songti SC", "STKaiti", "KaiTi", "Noto Serif SC", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+
+  --page-width: 680px;
+  --space: clamp(20px, 5vw, 40px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #121210;
+    --ink: #f2f1ec;
+    --muted: #9a9990;
+    --line: rgba(242, 241, 236, 0.14);
+    --accent: #7da2ff;
+    --hover: rgba(125, 162, 255, 0.1);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+a:focus-visible,
+.skip-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 14px;
+  z-index: 10;
+}
+
+.skip-link:focus {
+  width: auto;
+  height: auto;
+  padding: 8px 14px;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  border-radius: 8px;
+  left: 16px;
+  top: 12px;
+}
+
+/* ---- 布局：单列，居中，留白就是设计 ---- */
+
+.page {
+  width: 100%;
+  max-width: 720px;
+  min-height: 100dvh;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 40px);
+  display: flex;
+  flex-direction: column;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: clamp(24px, 5vh, 40px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.brand-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.site-header nav {
+  display: flex;
+  gap: clamp(18px, 4vw, 32px);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.site-header nav a { padding-block: 4px; }
+.site-header nav a:hover { color: var(--ink); }
+
+main { flex: 1; }
+
+/* ---- 主视觉 ---- */
+
+.hero {
+  padding-block: clamp(40px, 8vh, 72px) clamp(36px, 6vh, 56px);
+}
+
+.eyebrow {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+#site-title {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(72px, 20vw, 128px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.tagline {
+  margin: 28px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(20px, 5vw, 28px);
+  letter-spacing: 0.06em;
+}
+
+.tagline span {
+  display: inline-block;
+  margin-left: 0.2em;
+}
+
+.intro {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* ---- 链接：干净的列表行，手机上也好点 ---- */
+
+.links { padding-block: 8px 48px; }
+
+.section-title {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.link-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link-list a {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  transition: color 0.2s ease, border-color 0.2s ease,
+    background-color 0.2s ease, transform 0.2s ease;
+}
+
+.link-list a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--hover);
+  transform: translateY(-2px);
+}
+
+.link-list svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+/* ---- 关于 / 页脚 ---- */
+
+.about { padding-block: 8px 56px; }
+
+.about p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+}
+
+.site-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-block: 24px 32px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.site-footer p { margin: 0; }
+
+/* ---- 入场：只有一次轻微淡入，尊重减动效 ---- */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero,
+.links,
+.about {
+  animation: fade-up 0.6s ease both;
+}
+
+.links { animation-delay: 0.08s; }
+.about { animation-delay: 0.16s; }
+
+/* ---- 小屏微调 ---- */
+
+@media (max-width: 480px) {
+  .site-header nav { gap: 18px; font-size: 13px; }
+  .link-list { gap: 12px; }
+  .link-list a { width: 44px; height: 44px; }
+  .site-footer { font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+</style>
   </head>
   <body>
     <a class="skip-link" href="#links">跳到链接</a>
@@ -75,6 +362,12 @@
       </footer>
     </div>
 
-    <script src="assets/js/home.js"></script>
+    <script>
+(() => {
+  const year = document.querySelector("#year");
+  if (year) year.textContent = String(new Date().getFullYear());
+})();
+
+</script>
   </body>
 </html>
